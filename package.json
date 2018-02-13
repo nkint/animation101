@@ -15,7 +15,11 @@
   "dependencies": {
     "d3": "^4.13.0",
     "lodash": "^4.17.5",
+    "mobx": "^3.5.1",
+    "mobx-react": "^4.4.1",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-transition-group": "^2.2.1",
+    "tweenr": "^2.2.1"
   }
 }
