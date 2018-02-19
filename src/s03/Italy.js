@@ -61,19 +61,21 @@ export class Italy extends React.Component {
     line: { ...cloneDeep(this.valueLine) },
   }
 
+  updateState = () => {
+    const { valueMap, valueLine } = this
+
+    if (this.state.map.radius !== valueMap.radius) {
+      this.setState({ map: { ...valueMap } })
+    }
+    if (this.state.line.value !== valueLine.value) {
+      this.setState({ line: { ...valueLine } })
+    }
+  }
+
   componentDidMount() {
     this.tween = Tweenr()
 
-    this.tween.on('tick', () => {
-      const { valueMap, valueLine } = this
-
-      if (this.state.map.radius !== valueMap.radius) {
-        this.setState({ map: { ...valueMap } })
-      }
-      if (this.state.line.value !== valueLine.value) {
-        this.setState({ line: { ...valueLine } })
-      }
-    })
+    this.tween.on('tick', this.updateState)
   }
 
   componentWillUnmount() {
