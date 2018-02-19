@@ -82,11 +82,12 @@ export class Italy extends React.Component {
     this.tween.dispose()
   }
 
-  openLens = () => {
+  openLens = (onComplete) => {
     this.tween.to(this.valueLine, {
       value: 0,
       ...animationOptions,
     })
+    .on('complete', onComplete)
   }
 
   closeLens = onComplete => {
@@ -106,8 +107,7 @@ export class Italy extends React.Component {
       .cancel()
       .to(valueMap, { ...cloneDeep(mapSmallPosition), ...animationOptions })
       .on('complete', () => {
-        this.animation = null
-        this.openLens()
+        this.openLens(() => { this.animation = null })
         store.endTransitioning()
       })
     } else if (direction === EXPAND) {
