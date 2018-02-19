@@ -91,35 +91,53 @@ export class Italy extends React.Component {
   }
 
   closeLens = onComplete => {
-    this.tween.to(this.valueLine, {
+    const { tween } = this
+
+    tween
+    .cancel()
+    .to(this.valueLine, {
       value: 100,
       ...animationOptions,
     })
     .on('complete', onComplete)
   }
 
-  startAnimation = direction => {
-    console.log('Italy > startAnimation')
+  dwarf = () => {
+    console.log('dwarf')
     const { tween, valueMap } = this
 
-    if (direction === DWARF) {
-      this.animation = tween
-      .cancel()
-      .to(valueMap, { ...cloneDeep(mapSmallPosition), ...animationOptions })
+    this.animation = true
+    tween
+    .cancel()
+    .to(valueMap, { ...cloneDeep(mapSmallPosition), ...animationOptions })
+    .on('complete', () => {
+      this.openLens(() => { this.animation = null })
+      store.endTransitioning()
+    })
+  }
+
+  expand = () => {
+    console.log('expand')
+    const { tween, valueMap } = this
+
+    this.animation = true
+    this.closeLens(() => {
+      tween
+      .to(valueMap, { ...cloneDeep(mapBigPosition), ...animationOptions })
       .on('complete', () => {
-        this.openLens(() => { this.animation = null })
+        this.animation = null
         store.endTransitioning()
       })
+    })
+  }
+
+  startAnimation = direction => {
+    console.log('Italy > startAnimation')
+
+    if (direction === DWARF) {
+      this.dwarf()
     } else if (direction === EXPAND) {
-      this.closeLens(() => {
-        this.animation = tween
-        .cancel()
-        .to(valueMap, { ...cloneDeep(mapBigPosition), ...animationOptions })
-        .on('complete', () => {
-          this.animation = null
-          store.endTransitioning()
-        })
-      })
+      this.expand()
     }
   }
 
