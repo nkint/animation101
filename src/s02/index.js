@@ -2,25 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { observer } from 'mobx-react'
 import { AnimationState } from 's02/AnimationState'
-import { Transition } from 'react-transition-group'
+import ReactTransitionGroup from 'react-addons-transition-group'
 import 'tachyons'
+import Tweenr from 'tweenr'
+import { noop } from 'lodash'
 
 const store = new AnimationState()
-
-const duration = 300
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0,
-  padding: 20,
-  display: 'inline-block',
-  backgroundColor: '#8787d8',
-}
-
-const transitionStyles = {
-  entering: { opacity: 0 },
-  entered: { opacity: 1 },
-}
 
 function Header() {
   return (
@@ -30,22 +17,106 @@ function Header() {
   )
 }
 
+const style = {
+  top: 0,
+}
+
+const animationOptions = {
+  duration: 1,
+  ease: 'expoOut',
+}
+
+function getSection(index) {
+  class Section extends React.Component {
+    tween = null
+    opacity = { value: 0 }
+    state = {
+      opacityValue: 0,
+    }
+
+    componentDidMount() {
+      // console.log('componentDidMount');
+      this.tween = Tweenr()
+      this.tween.on('tick', () => {
+        // console.log(this.opacity);
+        if (this.state.opacityValue !== this.opacity.value) {
+          this.setState({ opacityValue: this.opacity.value })
+        }
+      })
+    }
+
+    componentWillUnmount() {
+      // console.log('componentWillUnmount');
+      this.tween.dispose()
+    }
+
+    componentWillAppear(done) {
+      // console.log('componentWillEnter');
+      this.show()
+      return done()
+    }
+
+    componentWillEnter(done) {
+      // console.log('componentWillEnter');
+      this.show()
+      return done()
+    }
+
+    componentWillLeave(done) {
+      // console.log('componentWillLeave');
+      this.hide(done)
+    }
+
+    componentDidLeave() {
+      // console.log('componentDidLeave');
+    }
+
+    show(done = noop) {
+      this.tween.cancel().to(this.opacity, {
+        value: 1,
+        delay: 0,
+        ...animationOptions,
+      }).on('complete', done)
+    }
+
+    hide(done = noop) {
+      this.tween.cancel().to(this.opacity, {
+        value: 0,
+        delay: 0,
+        ...animationOptions,
+      }).on('complete', () => {
+        store.endTransitioning()
+        return done()
+      })
+    }
+
+    render() {
+      return (
+        <div className="demo1" style={{ ...style, opacity: this.state.opacityValue }}>
+          <h2 className="pa2 map">Section #{index}</h2>
+        </div>
+      )
+    }
+  }
+  return Section
+}
+
 @observer
 class Example extends React.Component {
   renderSection() {
-    const { currentSectionId } = store
+    const Section1 = getSection(1)
+    const Section2 = getSection(2)
+    const Section3 = getSection(3)
+
+    const { currentSectionId, isTransitioning } = store
+
     return (
       <div className="flex justify-center">
-        <Transition in={inProp} timeout={duration}>
-          {(state) => (
-            <div style={{
-              ...defaultStyle,
-              ...transitionStyles[state]
-            }}>
-              <h2 className="pa2 map">Section #{currentSectionId}</h2>
-            </div>
-          )}
-        </Transition>
+        <ReactTransitionGroup>
+          {(!isTransitioning && currentSectionId === 1) && <Section1 key={1} />}
+          {(!isTransitioning && currentSectionId === 2) && <Section2 key={2} />}
+          {(!isTransitioning && currentSectionId === 3) && <Section3 key={3} />}
+        </ReactTransitionGroup>
       </div>
     )
   }
@@ -62,11 +133,11 @@ class Example extends React.Component {
         <div className="flex justify-center">
           <button
             onClick={decrement}
-            disabled={!(currentSectionId > 0)}
+            disabled={!(currentSectionId > 1)}
           >Prev</button>
           <button
             onClick={increment}
-            disabled={!(currentSectionId < 5)}
+            disabled={!(currentSectionId < 3)}
           >Next</button>
         </div>
       </div>

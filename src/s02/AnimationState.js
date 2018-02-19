@@ -1,16 +1,25 @@
 import { observable, action } from 'mobx'
-import tweenr from 'tweenr'
 
 export class AnimationState {
-  @observable currentSectionId = 0
+  @observable currentSectionId = 1
+  @observable isTransitioning = false
+  nextOperation = null
 
   @action.bound
   increment() {
-    this.currentSectionId++
+    this.nextOperation = () => this.currentSectionId++
+    this.isTransitioning = true
   }
 
   @action.bound
   decrement() {
-    this.currentSectionId--
+    this.nextOperation = () => this.currentSectionId--
+    this.isTransitioning = true
+  }
+
+  @action.bound
+  endTransitioning() {
+    this.isTransitioning = false
+    this.nextOperation()
   }
 }
