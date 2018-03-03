@@ -4,9 +4,6 @@ export const sectionHeight = 95
 
 export function getSection(index) {
   class Section extends Component {
-    tween = null
-    opacity = { value: 0 }
-
     render() {
       const { innerRef } = this.props
       return (

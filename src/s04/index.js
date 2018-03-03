@@ -22,14 +22,14 @@ class Example extends React.Component {
       >
 
         <div className="w-100 center t0 l0">
-          {currentSectionId === 1 && <Section1 key={1} innerRef={setRefCurrent}/>}
-          {currentSectionId === 2 && <Section2 key={2} innerRef={setRefCurrent}/>}
-          {currentSectionId === 3 && <Section3 key={3} innerRef={setRefCurrent}/>}
+          {currentSectionId === 1 && <Section1 innerRef={setRefCurrent}/>}
+          {currentSectionId === 2 && <Section2 innerRef={setRefCurrent}/>}
+          {currentSectionId === 3 && <Section3 innerRef={setRefCurrent}/>}
         </div>
         <div className="w-100 center t0 l0">
-          {nextSectionId === 1 && <Section1 key={1} innerRef={setRefNext}/>}
-          {nextSectionId === 2 && <Section2 key={2} innerRef={setRefNext}/>}
-          {nextSectionId === 3 && <Section3 key={3} innerRef={setRefNext}/>}
+          {nextSectionId === 1 && <Section1 innerRef={setRefNext}/>}
+          {nextSectionId === 2 && <Section2 innerRef={setRefNext}/>}
+          {nextSectionId === 3 && <Section3 innerRef={setRefNext}/>}
         </div>
       </div>
     )
