@@ -60,7 +60,6 @@ export class AnimationState {
   }
 
   goUp = () => {
-    console.log('goUp', this.refNext);
     this.refNext.style.top = `${-sectionHeight}px`
     this.sectionUpDown.value = 0
     const target = -sectionHeight

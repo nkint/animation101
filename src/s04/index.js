@@ -13,10 +13,7 @@ const Section3 = getSection(3)
 @observer
 class Example extends React.Component {
   renderSection() {
-
-    const { currentSectionId, nextSectionId, isTransitioning, setRefCurrent, setRefNext } = store
-
-    console.log(currentSectionId, nextSectionId);
+    const { currentSectionId, nextSectionId, setRefCurrent, setRefNext } = store
 
     return (
       <div
