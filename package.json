@@ -23,6 +23,7 @@
     "react-motion": "^0.5.2",
     "react-transition-group": "^2.2.1",
     "tachyons": "^4.9.1",
+    "tween-chain": "^1.0.0",
     "tweenr": "^2.2.1"
   }
 }

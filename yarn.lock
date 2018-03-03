@@ -7429,6 +7429,14 @@ tween-base@^2.0.0, tween-base@^2.1.0:
     events "^1.0.2"
     inherits "^2.0.1"
 
+tween-chain@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/tween-chain/-/tween-chain-1.0.0.tgz#9b7b264f432c05f77c9e379ac69a1b70f2ff7499"
+  dependencies:
+    inherits "^2.0.1"
+    tween-base "^2.1.0"
+    tween-ticker "^3.1.1"
+
 tween-objects@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/tween-objects/-/tween-objects-1.0.2.tgz#0d6d2a3f50ebb9847a7969298ab30f1a641ab4d2"
@@ -7439,7 +7447,7 @@ tween-objects@^1.0.1:
     own-enumerable-keys "^1.0.0"
     tween-base "^2.1.0"
 
-tween-ticker@^3.3.1:
+tween-ticker@^3.1.1, tween-ticker@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/tween-ticker/-/tween-ticker-3.3.2.tgz#468181c91dc985ca997355ef46bf6ede05ebf589"
   dependencies:
